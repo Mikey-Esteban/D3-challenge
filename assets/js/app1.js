@@ -97,11 +97,11 @@ function moveAbbr(abbrGroup, newXScale, chosenXaxis, newYScale, chosenYAxis) {
   return abbrGroup;
 };
 // function used for updating circles group with new tooltip
-function updateToolTip1(circlesGroup, chosenXAxis, chosenYAxis) {
+function updateToolTip(circlesGroup, chosenXAxis, chosenYAxis) {
 
   // set x label value
   if (chosenXAxis === "poverty") {
-      var xlabel = "Poverty: ";
+      var xlabel = "Poverty (%): ";
     }
   else if (chosenXAxis === "age") {
       var xlabel = "Age (Median): ";
@@ -122,9 +122,9 @@ function updateToolTip1(circlesGroup, chosenXAxis, chosenYAxis) {
 
   var toolTip = d3.tip()
     .attr("class", "d3-tip")
-    .offset([80, -60])
+    .offset([-10, -60])
     .html(function(d) {
-      return (`${ylabel} ${d[chosenYAxis]}<br>${xlabel} ${d[chosenXAxis]}`);
+      return (`${d.state}<br>${ylabel} ${d[chosenYAxis]}<br>${xlabel} ${d[chosenXAxis]}`);
     });
 
   circlesGroup.call(toolTip);
@@ -259,7 +259,7 @@ d3.csv("/assets/data/data.csv").then(function(healthData, error) {
       .text("Obese (%)");
 
     // updateToolTip function above csv import
-    var circlesGroup = updateToolTip1(circlesGroup, chosenXAxis, chosenYAxis);
+    var circlesGroup = updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
 
     // x axis labels event listener
     xlabelsGroup.selectAll("text")
@@ -283,7 +283,7 @@ d3.csv("/assets/data/data.csv").then(function(healthData, error) {
           abbrGroup = moveAbbr(abbrGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
           // updates tooltips with new info
-          circlesGroup = updateToolTip1(circlesGroup, chosenXAxis, chosenYAxis);
+          circlesGroup = updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
 
           // changes classes to change bold text
           if (chosenXAxis === "poverty") {
@@ -344,7 +344,7 @@ d3.csv("/assets/data/data.csv").then(function(healthData, error) {
             abbrGroup = moveAbbr(abbrGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
 
             // updates tooltips with new info
-            circlesGroup = updateToolTip1(circlesGroup, chosenXAxis, chosenYAxis);
+            circlesGroup = updateToolTip(circlesGroup, chosenXAxis, chosenYAxis);
 
             // changes classes to change bold text
             if (chosenYAxis === "healthcare") {
